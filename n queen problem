@@ -1,0 +1,65 @@
+
+bool checkifpossible(int x,int y,int n, vector<vector<int> > &test)
+    {
+        if( x>=0 and x<n and y>=0 and y<n )
+        {
+            for(int j=0;j<y;j++)
+            {
+                if(test[x][j]==1 )
+                return false;
+            }
+              for(int i=0;i<x;i++)
+            {
+                if(test[i][y]==1 )
+                return false;
+            }
+            int start=x-1,end=y-1;
+            int start1=x-1,start2=y+1;
+            while(start>=0 and end>=0)
+            {
+                if(test[start][end] ==1)
+                return false;
+                
+                start--;
+                end--;
+            }
+              while(start1>=0 and start2<n)
+            {
+                if(test[start1][start2] ==1)
+                return false;
+                
+                start1--;
+                start2++;
+            }
+            return true;
+        }
+        return false;
+    }
+    void traverse(vector<vector<int> > &test,vector<int> ans ,int start,int n)
+    {
+        if(start>=n)
+        {
+            solution.push_back(ans);
+            return ;
+        }
+            for(int i=0;i<n;i++)
+        {
+            test[start][i]=1;
+            ans.push_back(i+1);
+            if(checkifpossible(start,i,n,test) )
+            {
+                traverse(test,ans,start+1,n);
+            }
+            test[start][i]=0;
+            ans.pop_back();
+        }
+    }
+    vector<vector<int> > solution;
+    vector<vector<int>> nQueen(int n) {
+        vector<vector<int> > test(n,vector<int>(n,0));
+        solution.clear();
+        vector<int> ans;
+        int start=0;
+        traverse(test,ans,0,n);
+        return solution;
+    }
